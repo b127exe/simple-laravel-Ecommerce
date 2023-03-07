@@ -15,8 +15,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            transition: all .5s linear; 
+            font-family: 'Poppins', sans-serif; 
         }
         .logo-img {
             width: 110px;
@@ -46,8 +45,8 @@
                             Products Options
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Add Product</a></li>
-                            <li><a class="dropdown-item" href="#">Trash Products</a></li>
+                            <li><a class="dropdown-item" href="/products/insert">Add Product</a></li>
+                            <li><a class="dropdown-item" href="/products/trash-view">Trash Products</a></li>
                         </ul>
                     </li>
                 </ul>

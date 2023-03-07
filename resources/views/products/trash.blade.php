@@ -1,6 +1,7 @@
 @extends('layouts.layout_01')
 @section('content')
     <div class="container mt-3">
+        @if ($Tproducts->isNotEmpty())
         <h2 class="display-4 text-center">All Trash Products</h2><hr>
         <div class="table-responsive">
             <table class="table table-hover">
@@ -20,7 +21,12 @@
                             <td>{{$items->pid}}</td>
                             <td>{{$items->title}}</td>
                             <td>{{$items->shortDesc}}</td>
-                            <td>{{$items->category_id}}</td>
+                            <td>
+                                @php
+                                    $category = DB::select('select * from categories where category_id = ?', [$items->category_id]);
+                                @endphp
+                                {{$category[0]->category_name}}
+                            </td>
                             <td>${{$items->price}}</td>
                             <td>
                                 <div class="dropdown">
@@ -38,5 +44,8 @@
                 </tbody>
             </table>
         </div>
+        @else
+         <h2 class="display-3 text-center">No Trash Products</h2>
+        @endif
     </div>
 @endsection

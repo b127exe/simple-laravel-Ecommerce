@@ -16,3 +16,7 @@ Route::group(["prefix" => "products"],function(){
    Route::get('/restore/{id}',[ProductController::class , "restore"]); 
    Route::get('/delete/{id}',[ProductController::class , "delete"]); 
 }); 
+
+Route::get('/product-center',[ProductController::class , 'productCenter']);
+Route::get('/add-cart/{id}',[ProductController::class , 'addCart']);
+Route::get('/all-cart',[ProductController::class , 'allCart']);

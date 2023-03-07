@@ -18,11 +18,12 @@ class ProductController extends Controller
     return view('products.index')->with('products', $products);
   }
 
-  public function trashView(){
-   
+  public function trashView()
+  {
+
     $trashProducts = Product::onlyTrashed()->get();
 
-    return view('products.trash')->with("Tproducts",$trashProducts);
+    return view('products.trash')->with("Tproducts", $trashProducts);
   }
 
   public function insert()
@@ -134,36 +135,105 @@ class ProductController extends Controller
     $findProduct = Product::find($id);
 
     if (!is_null($findProduct)) {
-    
-       $findProduct->delete();
 
-       return redirect('/products/trash-view');
+      $findProduct->delete();
+
+      return redirect('/products/trash-view');
     }
   }
 
-  public function restore($id){
-    
-   $findProduct = Product::onlyTrashed()->find($id);
+  public function restore($id)
+  {
 
-   if(!is_null($findProduct)){
+    $findProduct = Product::onlyTrashed()->find($id);
 
-    $findProduct->restore();
+    if (!is_null($findProduct)) {
 
-    return redirect('/products');
+      $findProduct->restore();
 
-   }
+      return redirect('/products');
+    }
   }
 
-  public function delete($id){
+  public function delete($id)
+  {
 
-   $findProduct = Product::onlyTrashed()->find($id);
+    $findProduct = Product::onlyTrashed()->find($id);
 
-   if(!is_null($findProduct)){
+    if (!is_null($findProduct)) {
 
-    
+      $uImage = $findProduct->file;
+      $unlinkTag = explode('|', $uImage);
+      foreach ($unlinkTag as $img) {
+        unlink('uploads/' . $img);
+      }
 
-   }
-
+      $findProduct->forceDelete();
+      return redirect('/products/trash-view');
+    }
   }
 
+  public function productCenter()
+  {
+
+    $products = Product::all();
+
+    return view('products.product-center')->with("products", $products);
+  }
+
+  // Cart Work
+
+  public function addCart(Product $id)
+  {
+
+    $cart = session()->get('cart');
+
+    if (!$cart) {
+      $cart = [
+        $id->pid => [
+          'title' => $id->title,
+          'shortDesc' => $id->shortDesc,
+          'longDesc' => $id->longDesc,
+          'price' => $id->price,
+          'image' => $id->file,
+          'quantity' => 1
+        ]
+      ];
+
+      session()->put('cart', $cart);
+
+      return redirect('/all-cart');
+    }
+
+    if (isset($cart[$id->pid])) {
+
+      $cart[$id->pid]['quantity']++;
+
+      session()->put('cart', $cart);
+
+      return redirect('/all-cart');
+    }
+
+    $cart[$id->pid] = [
+      'title' => $id->title,
+      'shortDesc' => $id->shortDesc,
+      'longDesc' => $id->longDesc,
+      'price' => $id->price,
+      'image' => $id->file,
+      'quantity' => 1
+    ];
+
+    session()->put('cart', $cart);
+
+    return redirect('/all-cart');
+  }
+
+  public function allCart()
+  {
+    // echo "<pre>";
+    // print_r(session()->get('cart'));
+
+    return view('products.all-cart');
+
+  }
 }

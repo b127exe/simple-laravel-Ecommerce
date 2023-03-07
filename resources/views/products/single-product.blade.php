@@ -1,6 +1,10 @@
 @extends('layouts.layout_01')
 @section('style')
     <style>
+        .main-image
+        {
+            transition: all .5s linear;
+        }
         .main-image:hover
         {
           transform: scale(1.2);
