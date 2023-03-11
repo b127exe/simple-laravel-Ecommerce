@@ -236,4 +236,28 @@ class ProductController extends Controller
     return view('products.all-cart');
 
   }
+
+  public function removeAllCart(){
+
+    session()->forget('cart');
+
+    return redirect('/product-center');
+
+  }
+
+  public function removeCart($id){
+
+   $cart = session()->get('cart');
+
+   if(isset($cart[$id])){
+
+     unset($cart[$id]);
+
+     session()->put('cart');
+
+     return back();
+
+   }
+
+  }
 }

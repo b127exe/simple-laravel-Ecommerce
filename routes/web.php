@@ -20,3 +20,9 @@ Route::group(["prefix" => "products"],function(){
 Route::get('/product-center',[ProductController::class , 'productCenter']);
 Route::get('/add-cart/{id}',[ProductController::class , 'addCart']);
 Route::get('/all-cart',[ProductController::class , 'allCart']);
+Route::get('/remove-all-cart',[ProductController::class , 'removeAllCart']);
+Route::get('/remove-cart/{id}',[ProductController::class , 'removeCart']);
+
+Route::get('/destory-session',function(){
+   session()->forget('cart');
+});

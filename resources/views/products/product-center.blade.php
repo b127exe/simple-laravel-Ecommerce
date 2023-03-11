@@ -22,7 +22,7 @@
                             $singleImg = explode('|',$image);       
                         @endphp
                         <div style="overflow: hidden;">
-                            <img src="{{url('uploads')}}/{{$singleImg[0]}}" style="height: 300px" class="card-img-top">
+                            <a href="{{url('/products/single-product')}}/{{$items->pid}}"><img src="{{url('uploads')}}/{{$singleImg[0]}}" style="height: 300px" class="card-img-top"></a>
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">{{$items->title}}</h5>
