@@ -23,6 +23,10 @@ Route::get('/all-cart',[ProductController::class , 'allCart']);
 Route::get('/remove-all-cart',[ProductController::class , 'removeAllCart']);
 Route::get('/remove-cart/{id}',[ProductController::class , 'removeCart']);
 
+Route::get('/login',[ProductController::class , 'login']);
+Route::get('/register',[ProductController::class , 'register']);
+Route::post('/register-store',[ProductController::class , 'registerStore']);
+
 Route::get('/destory-session',function(){
    session()->forget('cart');
 });

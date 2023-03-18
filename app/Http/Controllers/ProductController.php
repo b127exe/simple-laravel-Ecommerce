@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use PhpParser\Node\Expr\AssignOp\BitwiseOr;
 
 class ProductController extends Controller
 {
@@ -234,30 +236,60 @@ class ProductController extends Controller
     // print_r(session()->get('cart'));
 
     return view('products.all-cart');
-
   }
 
-  public function removeAllCart(){
+  public function removeAllCart()
+  {
 
     session()->forget('cart');
 
     return redirect('/product-center');
-
   }
 
-  public function removeCart($id){
+  public function removeCart($id)
+  {
 
-   $cart = session()->get('cart');
+    $cart = session()->get('cart');
 
-   if(isset($cart[$id])){
+    if (isset($cart[$id])) {
 
-     unset($cart[$id]);
+      unset($cart[$id]);
 
-     session()->put('cart');
+      session()->put('cart');
 
-     return back();
+      return back();
+    }
+  }
 
-   }
+  // LOGIN WORK
+
+  public function login()
+  {
+    return view('auth.login');
+  }
+
+  public function register()
+  {
+    return view('auth.register');
+  }
+
+  public function registerStore(Request $request)
+  {
+    
+   $request->validate([
+     'name' => 'required|max:191',
+     'email' => 'required|email',
+     'password' => 'required'
+   ]);
+
+   User::insert([
+    'name' => $request['name'],
+    'email' => $request['email'],
+    'password' => md5($request['password'])
+   ]);
+
+   session()->flash('status','Register successfull now go login again!');
+   return back();
 
   }
 }
