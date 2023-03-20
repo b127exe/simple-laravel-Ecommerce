@@ -15,7 +15,8 @@
         <div class="row">
             <div class="offset-md-3 col-md-6">
                 <h2 class="display-3 text-center">Login</h2>
-                <form action="post">
+                <form method="post" action="{{url('/login-store')}}">
+                    @csrf
                     <div class="mb-3">
                         <label class="lead">Email</label>
                         <input type="email" name="email" class="form-control">

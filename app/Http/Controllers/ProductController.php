@@ -275,21 +275,44 @@ class ProductController extends Controller
 
   public function registerStore(Request $request)
   {
-    
-   $request->validate([
-     'name' => 'required|max:191',
-     'email' => 'required|email',
-     'password' => 'required'
-   ]);
 
-   User::insert([
-    'name' => $request['name'],
-    'email' => $request['email'],
-    'password' => md5($request['password'])
-   ]);
+    $request->validate([
+      'name' => 'required|max:191',
+      'email' => 'required|email',
+      'password' => 'required'
+    ]);
 
-   session()->flash('status','Register successfull now go login again!');
-   return back();
+    User::insert([
+      'name' => $request['name'],
+      'email' => $request['email'],
+      'password' => md5($request['password'])
+    ]);
 
+    session()->flash('status', 'Register successfull now go login again!');
+    return back();
+  }
+
+  public function loginStore(Request $request)
+  {
+    $request->validate([
+      'email' => 'required|email',
+      'password' => 'required'
+    ]);
+
+    $user = DB::table('users')->where('email', '=', $request['email'])->where('password', '=', md5($request['password']))->get();
+
+    if ($user[0]->role == 1) {
+
+      session()->put('email', $user[0]->email);
+      session()->put('role', $user[0]->role);
+
+      return redirect('/products');
+    } 
+    else {
+
+      session()->put('email', $user[0]->email);
+      session()->put('role', $user[0]->role);
+      return redirect('/product-center');
+    }
   }
 }

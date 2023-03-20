@@ -39,7 +39,7 @@
                         <button class="btn btn-primary">Register</button>
                     </div>
                 </form>
-              <div class="d-flex justify-content-between">
+              <div class="d-flex justify-content-between my-2">
                 <a href="/login" class="nav-link">Already an account</a>
               </div>
             </div>
